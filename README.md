@@ -1,0 +1,61 @@
+# Code for paper
+
+Python code and Comsol data for the following paper:  
+
+"Low-Order Modeling of Internal Heat Transfer in Biomass Particle Pyrolysis" by Gavin Wiggins, Peter Ciesielski, Stuart Daw.
+
+Requirements: Python 3, Matplotlib, NumPy, SciPy
+
+## Data
+
+Data from the 3-D Comsol simulations is available in the **comsol** folder. Data from the Sadhukhan 2009 paper is available in the **sadhukhan2009** folder.
+
+## Functions
+
+Module files prepended with **func** contain functions for modeling heat conduction within a woody biomass particle. Details about each function are available in the comment within each module file.
+
+**funcHeatCond.py**  
+Functions for 1-D transient heat conduction within a solid sphere, cylinder, or slab shape. Each function returns an array of temperatures from the center to surface of the particle at each time step. Properties such as thermal conductivity and heat capacity can be constant or vary with temperature and moisture content. Assumes convection at surface, symmetry at center, no radiation, and constant particle size.
+
+**funcKinetics.py**  
+Kinetic reactions for gas, tar, and char yields from biomass pyrolysis. Parameters for pre-factors and activation energies from Sadhukhan 2009 paper.
+
+**funcOther.py**  
+Various functions used to model 1-D biomass particle pyrolysis. Calculate the shell volumes that comprise a solid sphere. Calculate the volume average temperature of the entire sphere. Calculate the Sauter diameter of a shape. Calculate the dimensionless Biot and pyrolysis numbers.
+
+**funcProps.py**  
+Calculate the heat capacity and thermal conductivity of wood.
+
+**funcRoots.py , funcTheta.py , funcZeta.py**  
+Functions for solving the 1-D analytical solution of the transient heat conduction equation.
+
+## Models
+
+Various models were created to investigate internal heat transfer within a solid woody biomass particle. See the comments in each file for detailed documentation, alternatively an overview is provided below.
+
+**oak-200-20000.py**  
+Compare volume average temperature profiles from 1-D model and 3-D Comsol simulation of white oak particles with Feret diameters DF = 200 um to 20 mm. Surface area to volume diameter, Dsv, is used for the 1-D model.
+
+**oak-200.py , oak-20000.py**  
+Compare temperature profiles of 1-D and 3-D models for DF = 200 um and 20 mm dry white oak particle. Heat capacity as function of temperature and constant thermal conductivity. Different equivalent spherical diameters and characteristic lengths implemented with 1-D model.
+
+**oak-bipy.py**  
+Compare Biot and pyrolysis numbers for dry white oak particles. Thermal properties evaluated at 773 K and kinetic rate constant from Sadhukhan 2009 paper.
+
+**oak-diff.py**
+Calculate and compare difference between 3-D surface and center temperature profiles.
+
+**pine-200.py , pine-20000.py**  
+Compare temperature profiles of 1-D and 3-D models for DF = 200 um and 20 mm dry loblolly pine particle. Heat capacity as function of temperature and constant thermal conductivity. Different equivalent spherical diameters and characteristic lengths implemented with 1-D model.
+
+**sadhukhan2009.py**  
+Compare 1-D transient heat conduction model to Sadhukhan 2009 Figure 2 cylinder.
+
+**sphere-ana-num.py**  
+Compare 1-D analytical sphere solution to 1-D numerical and 3-D Comsol solutions for transient heat conduction in solid sphere with constant k and Cp.
+
+**sphere-cube.py**  
+Compare temperature profiles of 3-D cube and 3-D sphere in Comsol to 1-D cube and 1-D sphere model. Compare 3-D cube and 3-D sphere Comsol temperature profiles. Sphere and cube are volume equivalent where sphere diameter is 1 mm and cube side is 0.806 mm.
+
+**sphere-cyl-slab.py**  
+Compare temperature profiles of 1-D solid sphere, cylinder, and cube shapes that are volume equivalent. Note that due to surface area, sphere heats slowest, for example sphere < cylinder < cube.
