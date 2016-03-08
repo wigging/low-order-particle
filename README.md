@@ -1,8 +1,6 @@
-# Code for paper
+# Code for Low-Order Particle Modeling Paper
 
-Python code and Comsol data for the following paper:  
-
-"Low-Order Modeling of Internal Heat Transfer in Biomass Particle Pyrolysis" by Gavin Wiggins, Peter Ciesielski, Stuart Daw.
+Python code and COMSOL data for the following paper: "Low-Order Modeling of Internal Heat Transfer in Biomass Particle Pyrolysis" by Gavin Wiggins, Peter Ciesielski, and Stuart Daw.
 
 Requirements: Python 3, Matplotlib, NumPy, SciPy
 
@@ -22,9 +20,6 @@ Kinetic reactions for gas, tar, and char yields from biomass pyrolysis. Paramete
 
 **funcOther.py**  
 Various functions used to model 1-D biomass particle pyrolysis. Calculate the shell volumes that comprise a solid sphere. Calculate the volume average temperature of the entire sphere. Calculate the Sauter diameter of a shape. Calculate the dimensionless Biot and pyrolysis numbers.
-
-**funcProps.py**  
-Calculate the heat capacity and thermal conductivity of wood.
 
 **funcRoots.py , funcTheta.py , funcZeta.py**  
 Functions for solving the 1-D analytical solution of the transient heat conduction equation.

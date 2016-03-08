@@ -16,10 +16,79 @@ Bergman, Lavine, Incropera, Dewitt, 2011. Fundamentals of Heat and Mass Transfer
 # -----------------------------------------------------------------------------
 import numpy as np
 import scipy.linalg as sp
-import funcProps as pr
 
 # Functions
 # -----------------------------------------------------------------------------
+
+def heatcap(x, T):
+    """
+    Calculate heat capacity of wood at temperature and moisture content.
+
+    Example:
+        cp = heatcap(12, 300)
+    Inputs:
+        x = moisture content, %
+        T = temperature, K
+    Output:
+        cp_wet = heat capacity wet wood, kJ/(kg*K)
+
+    Reference:
+        Glass and Zelinka, 2010. Wood Handbook, Ch. 4, pp. 1-19.
+    """
+
+    cpw = 4.18  # heat capacity of water, kJ/(kg*K)
+
+    # coefficients for adjustment factor Ac
+    b1 = -0.06191
+    b2 = 2.36e-4
+    b3 = -1.33e-4
+
+    # adjustment factor for additional energy in wood-water bond, Eq. 4-18
+    Ac = x*(b1 + b2*T + b3*x)
+
+    # heat capacity of dry wood, Eq. 4-16a, kJ/(kg*K)
+    cp_dry = 0.1031 + 0.003867*T
+
+    # heat capacity of wood that contains water, Eq. 4-17, kJ/(kg*K)
+    cp_wet = (cp_dry + cpw*x/100) / (1 + x/100) + Ac
+
+    return cp_wet
+
+
+def thermalcond(x, So, Gb):
+    """
+    Calculate thermal conductivity of wood at moisture content, volumetric
+    shrinkage, and basic specific gravity.
+
+    Example:
+        k = thermalcond(12, 12.3, 0.54)
+    Inputs:
+        x = moisture content, %
+        So = volumetric shrinkage, Table 4-3, %
+        Gb = basic specific gravity, Table 4-7 or Table 5-3
+    Outputs:
+        k = thermal conductivity, W/(m*k)
+
+    Reference:
+        Glass and Zelinka, 2010. Wood Handbook, Ch. 4, pp. 1-19.
+    """
+
+    mcfs = 30   # fiber staturation point estimate, %
+
+    # shrinkage from green to final moisture content, Eq. 4-7, %
+    Sx = So*(1 - x/mcfs)
+
+    # specific gravity based on volume at given moisture content, Eq. 4-9
+    Gx = Gb / (1 - Sx/100)
+
+    # thermal conductivity, Eq. 4-15, W/(m*K)
+    A = 0.01864
+    B = 0.1941
+    C = 0.004064
+    k = Gx*(B + C*x) + A
+
+    return k
+
 
 def hc1(d, x, So, Gb, h, Ti, Tinf, b, m, t):
     """
@@ -68,8 +137,8 @@ def hc1(d, x, So, Gb, h, Ti, Tinf, b, m, t):
 
     # vectors = cp, alpha, Fo whereas single values = rho, k, Bi
     rho = Gb*1000
-    k = pr.thermalcond(x, So, Gb)
-    cp = pr.heatcap(x, T[0])*1000
+    k = thermalcond(x, So, Gb)
+    cp = heatcap(x, T[0])*1000
     alpha = k/(rho*cp)
     Fo = alpha*dt/(dr**2)
     Bi = h*dr/k
@@ -115,7 +184,7 @@ def hc1(d, x, So, Gb, h, Ti, Tinf, b, m, t):
         T[i] = sp.solve_banded((1, 1), ab, bb)
 
         # update heat capacity, alpha, and Fourier number
-        cp = pr.heatcap(x, T[i])*1000
+        cp = heatcap(x, T[i])*1000
         alpha = k/(rho*cp)
         Fo = alpha*dt/(dr**2)
 
@@ -184,7 +253,7 @@ def hc2(d, x, k, Gb, h, Ti, Tinf, b, m, t):
 
     # vectors = cp, alpha, Fo whereas single values = rho, k, Bi
     rho = Gb*1000
-    cp = pr.heatcap(x, T[0])*1000
+    cp = heatcap(x, T[0])*1000
     alpha = k/(rho*cp)
     Fo = alpha*dt/(dr**2)
     Bi = h*dr/k
@@ -230,7 +299,7 @@ def hc2(d, x, k, Gb, h, Ti, Tinf, b, m, t):
         T[i] = sp.solve_banded((1, 1), ab, bb)
 
         # update heat capacity, alpha, and Fourier number
-        cp = pr.heatcap(x, T[i])*1000
+        cp = heatcap(x, T[i])*1000
         alpha = k/(rho*cp)
         Fo = alpha*dt/(dr**2)
 
@@ -299,7 +368,6 @@ def hc3(d, cp, k, Gb, h, Ti, Tinf, b, m, t):
 
     # vectors = cp, alpha, Fo whereas single values = rho, k, Bi
     rho = Gb*1000
-    #cp = pr.heatcap(x, T[0])*1000
     alpha = k/(rho*cp)
     Fo = alpha*dt/(dr**2)
     Bi = h*dr/k
@@ -343,11 +411,6 @@ def hc3(d, cp, k, Gb, h, Ti, Tinf, b, m, t):
     # then update properties and [bb] from new temperatures
     for i in range(1, nt+1):
         T[i] = sp.solve_banded((1, 1), ab, bb)
-
-        # update heat capacity, alpha, and Fourier number
-        #cp = pr.heatcap(x, T[i])*1000
-        #alpha = k/(rho*cp)
-        #Fo = alpha*dt/(dr**2)
 
         # update banded matrix [ab]
         ab[0, 1] = -2*(1+b)*Fo
@@ -440,5 +503,3 @@ def hc(m, dr, b, dt, h, Tinf, g, T, i, r, pbar, cpbar, kbar):
     T = sp.solve_banded((1, 1), ab, bb)
 
     return T
-
-    
