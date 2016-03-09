@@ -43,6 +43,9 @@ Calculate and compare difference between 3-D surface and center temperature prof
 **pine-200.py , pine-20000.py**  
 Compare temperature profiles of 1-D and 3-D models for DF = 200 um and 20 mm dry loblolly pine particle. Heat capacity as function of temperature and constant thermal conductivity. Different equivalent spherical diameters and characteristic lengths implemented with 1-D model.
 
+**pine-5400.py**  
+Surface, volume, and center temperatures from 1-D and 3-D models for DF = 5.4 mm dry loblolly pine particle. Heat capacity as function of temperature and constant thermal conductivity. Dsv used as equivalent spherical diameter for 1-D model.
+
 **sadhukhan2009.py**  
 Compare 1-D transient heat conduction model to Sadhukhan 2009 Figure 2 cylinder.
 
