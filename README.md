@@ -1,8 +1,11 @@
 # Code for Low-Order Particle Modeling Paper
 
-Python code and COMSOL data for the following paper: "Low-Order Modeling of
-Internal Heat Transfer in Biomass Particle Pyrolysis" by Gavin Wiggins, Peter
-Ciesielski, and Stuart Daw.
+Python code and COMSOL data for the following paper:
+
+Gavin Wiggins, Peter Ciesielski, and Stuart Daw. "Low-Order Modeling of
+Internal Heat Transfer in Biomass Particle Pyrolysis." Energy & Fuels, 2016,
+30(6), pp. 4960-4969.  
+[available online](http://pubs.acs.org/doi/abs/10.1021/acs.energyfuels.6b00554)
 
 Requirements: Python 3, Matplotlib, NumPy, SciPy
 
@@ -94,6 +97,11 @@ and cube side is 0.806 mm.
 
 **sphere-cyl-slab.py**  
 Compare temperature profiles of 1-D solid sphere, cylinder, and cube shapes
-that are volume equivalent. Note that due to surface area, sphere heats
-slowest, for example sphere < cylinder < cube.
+that are volume equivalent. Note that due to surface area, sphere heats the
+slowest compared to the cylinder and cube shapes.
+
+## License
+
+Files in this repository are available under the MIT license. See the LICENSE
+file for more info.
 
