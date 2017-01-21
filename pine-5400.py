@@ -89,3 +89,22 @@ py.xlabel('Time (s)')
 py.legend(loc='best', numpoints=1)
 py.grid()
 despine()
+
+# plot black and white figure
+
+py.figure(2)
+py.plot(t, Tsv[:, -1], c='k', ls='-', lw=2, label='Ts_1d')
+py.plot(t, Tsv_vol, c='k', ls='--', lw=2, label='Tv_1d')
+py.plot(t, Tsv[:, 0], c='k', ls=':', lw=3, label='Tc_1d')
+py.plot(t2, Tsa, ls='', marker='o', markevery=2, mec='k', mew=2, mfc='none', label='Ts_3d')
+py.plot(t2, Tv, ls='', marker='^', markevery=2, mec='k', mew=2, mfc='none', label='Tv_3d')
+py.plot(t2, Tc, ls='', marker='s', markevery=2, mec='k', mew=2, mfc='none', label='Tc_3d')
+py.axhline(Tinf, c='k', ls='--')
+py.ylim(250, 800)
+py.xlim(0, tmax)
+# py.title('Surface, Volume, Center Temperatures for DF = 5.4 mm')
+py.ylabel('Temperature (K)')
+py.xlabel('Time (s)')
+py.legend(loc='best', numpoints=1, frameon=False)
+despine()
+
