@@ -200,3 +200,28 @@ py.ylabel('Residual Weight Fraction (-)')
 py.legend(loc='best', numpoints=1, frameon=False)
 py.grid()
 despine()
+
+# plot figures in black and white
+
+py.figure(3)
+py.plot(t, TdsvH[:, 0], c='k', ls='-', lw=2, label='$\Delta$H = -240 kJ/kg')
+py.plot(t, Tdsv[:, 0], c='k', ls='--', lw=2, label='$\Delta$H = 0')
+py.plot(t1, Tsph+273, c='k', marker='o', ls='', label='experiment')
+py.axhline(Tinf, c='k', ls='--')
+py.ylim(ymin=Ti-20)
+py.xlabel('Time (s)')
+py.ylabel('Center Temperature (K)')
+py.legend(loc='best', numpoints=1, frameon=False)
+despine()
+
+py.figure(4)
+py.plot(t, Ys_dsvH, c='k', ls='-', lw=2, label='$\Delta$H = -240 kJ/kg')
+py.plot(t, Ys_dsv, c='k', ls='--', lw=2, label='$\Delta$H = 0')
+py.plot(t2, Msph, c='k', marker='o', ls='', label='experiment')
+py.ylim([0, 1.1])
+py.xlabel('Time (s)')
+py.ylabel('Residual Weight Fraction (-)')
+py.legend(loc='best', numpoints=1, frameon=False)
+despine()
+
+
